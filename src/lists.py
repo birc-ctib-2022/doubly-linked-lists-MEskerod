@@ -5,7 +5,7 @@ from typing import (
     Generic, TypeVar, Iterable,
     Callable, Protocol
 )
-
+ 
 
 class Comparable(Protocol):
     """Type info for specifying that objects can be compared with <."""
@@ -101,7 +101,15 @@ def keep(x: DLList[T], p: Callable[[T], bool]) -> None:
     >>> print(x)
     [2, 4]
     """
-    ...
+    List = x.head.next
+    while List is not x.head:
+        if not p(List.val):
+            remove_link(List)
+        List = List.next
+    return
+
+def swap_link(x: Link) -> None: 
+    x.next, x.prev = x.prev, x.next
 
 
 def reverse(x: DLList[T]) -> None:
@@ -113,7 +121,12 @@ def reverse(x: DLList[T]) -> None:
     >>> print(x)
     [5, 4, 3, 2, 1]
     """
-    ...
+    Element = x.head.next
+    while Element is not x.head: 
+        swap_link(Element) #Flipping all the pointers
+        Element = Element.prev
+    x.head.next, x.head.prev = x.head.prev, x.head.next
+
 
 
 def sort(x: DLList[S]) -> None:
@@ -126,3 +139,4 @@ def sort(x: DLList[S]) -> None:
     [1, 3, 4, 5, 6, 12]
     """
     ...
+
